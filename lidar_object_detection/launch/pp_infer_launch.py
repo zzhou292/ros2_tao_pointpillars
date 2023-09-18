@@ -27,10 +27,10 @@ def generate_launch_description():
                 'pre_nms_top_n': 4096,
                 'class_names': ['Vehicle', 'Pedestrian', 'Cyclist'],
                 'model_path': '', 
-                'engine_path': '/home/nvidia/Projects/PointPillars/trt.fp16.engine',
+                'engine_path': '/model/pointpillars_model/trt.engine',
                 'data_type': 'fp32',
                 'intensity_scale': 255.0,
             }],
-            remappings=[('/point_cloud', '/ns2/zvision_lidar_points')]
+            remappings=[('/point_cloud', '/LIDAR_TOP')],
         )
     ])

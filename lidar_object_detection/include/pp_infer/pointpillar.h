@@ -28,9 +28,9 @@
 
 #define PERFORMANCE_LOG 1
 
+#include "rclcpp/rclcpp.hpp"
 #include "message_filters/subscriber.h"
 #include "message_filters/sync_policies/exact_time.h"
-#include "rclcpp/rclcpp.hpp"
 
 
 // Logger for TensorRT

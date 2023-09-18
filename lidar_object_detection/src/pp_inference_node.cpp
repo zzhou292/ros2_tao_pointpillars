@@ -43,7 +43,8 @@
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include "vision_msgs/msg/detection3_d_array.hpp"
 #include "pcl_conversions/pcl_conversions.h"
-#include "../include/pp_infer/point_cloud2_iterator.hpp"
+// #include "../include/pp_infer/point_cloud2_iterator.hpp"
+#include "sensor_msgs/point_cloud2_iterator.hpp"
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
@@ -73,7 +74,8 @@ public:
   MinimalPublisher()
   : Node("minimal_publisher")
   {
-    this->declare_parameter("class_names");
+    std::vector<std::string> class_names_values;
+    this->declare_parameter<std::vector<std::string>>("class_names", class_names_values);
     this->declare_parameter<float>("nms_iou_thresh", 0.01);
     this->declare_parameter<int>("pre_nms_top_n", 4096);
     this->declare_parameter<std::string>("model_path", "");
@@ -196,8 +198,8 @@ private:
 
         detection.bbox.center.orientation = orientation;
 
-        hyp.id = std::to_string(nms_pred[i].id);
-        hyp.score = nms_pred[i].score;
+        // hyp.id = std::to_string(nms_pred[i].id);
+        // hyp.score = nms_pred[i].score;
         
         detection.header = msg->header;
         
