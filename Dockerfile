@@ -2,7 +2,7 @@ FROM leungjch/cuda118-tensorrt-base:latest as base
 
 WORKDIR /home/docker/ament_ws
 
-COPY pointpillars_model /model/pointpillars_model
+COPY model /model/pointpillars_model
 
 RUN ROS_DISTRO=humble
 

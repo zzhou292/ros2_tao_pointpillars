@@ -29,7 +29,7 @@ def generate_launch_description():
                 'model_path': '', 
                 'engine_path': '/model/pointpillars_model/trt.engine',
                 'data_type': 'fp32',
-                'intensity_scale': 255.0,
+                'intensity_scale': 100.0,
             }],
             remappings=[('/point_cloud', '/LIDAR_TOP')],
         )

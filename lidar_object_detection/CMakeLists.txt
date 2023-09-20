@@ -46,6 +46,7 @@ find_package(message_filters REQUIRED)
 # find_package(PCL REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(pcl_ros REQUIRED)
+find_package(visualization_msgs REQUIRED)
  
 find_package(CUDA REQUIRED)
 
@@ -96,7 +97,17 @@ file(GLOB_RECURSE SOURCE_FILES
 
 
 cuda_add_executable(${PROJECT_NAME} src/pp_inference_node.cpp ${SOURCE_FILES})
-ament_target_dependencies(${PROJECT_NAME} rclcpp std_msgs vision_msgs geometry_msgs PCL CUDA message_filters pcl_conversions pcl_ros)
+ament_target_dependencies(${PROJECT_NAME} 
+  rclcpp 
+  std_msgs
+  vision_msgs
+  geometry_msgs
+  PCL
+  CUDA
+  message_filters
+  pcl_conversions
+  pcl_ros
+  visualization_msgs)
 
 target_link_libraries(${PROJECT_NAME}
     libnvinfer.so
