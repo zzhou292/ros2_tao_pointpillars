@@ -241,7 +241,10 @@ private:
       bounding_box.pose.orientation.z = quat.z();
       bounding_box.pose.orientation.w = quat.w();
       bounding_box.text = class_names.at(nms_pred.at(i).id);
-      marker_array.markers.push_back(bounding_box);
+      if(nms_pred.at(i).id==0&&abs(bounding_box.pose.position.y)<=8&&abs(bounding_box.pose.position.x)>=1.0 && abs(bounding_box.pose.position.y)>=1.0){
+      	marker_array.markers.push_back(bounding_box);
+      }
+      
     }
     publisher_->publish(marker_array);
 
