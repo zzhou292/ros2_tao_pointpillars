@@ -9,6 +9,10 @@ colcon build \
         --merge-install \
         --packages-select pp_infer \
         --cmake-args -DCMAKE_BUILD_TYPE=Release -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda
+        
+colcon build --packages-select brake_control --merge-install
+
 # run everything sudo
 
 CMD ["ros2", "launch", "pp_infer", "pp_infer_launch.py"]
+CMD ros2 run brake_control vehicle_detector
