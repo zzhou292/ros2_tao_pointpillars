@@ -28,7 +28,7 @@ private:
             RCLCPP_INFO(this->get_logger(), "Vehicle Position - X: %f, Y: %f, Z: %f",
                         x, y, marker.pose.position.z);
 
-            if (abs(y) <= 2.5 && x <= 7 && x>=0.0)
+            if (abs(y) <= 3 && x <= 7 && x>=0.0)
             {
                 condition_met = true;
                 break; // Condition met, no need to check further
@@ -44,7 +44,7 @@ private:
             consecutive_detections = 0;
         }
 
-        if (consecutive_detections >= 3 || status_broadcasted)
+        if (consecutive_detections >= 1 || status_broadcasted)
         {
             status_broadcasted = true; // Once status 1 is broadcasted, always keep it at 1
         }
