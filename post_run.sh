@@ -14,5 +14,5 @@ colcon build --packages-select brake_control --merge-install
 
 # run everything sudo
 
-CMD ["ros2", "launch", "pp_infer", "pp_infer_launch.py"]
+ros2 launch pp_infer pp_infer_launch.py
 CMD ros2 run brake_control vehicle_detector
