@@ -28,7 +28,7 @@ private:
             RCLCPP_INFO(this->get_logger(), "Vehicle Position - X: %f, Y: %f, Z: %f",
                         x, y, marker.pose.position.z);
 
-            if (abs(y) <= 3 && x <= 9 && x>=0.0)
+            if (abs(y) <= 3 && x <= 9 && x>1.0)
             {
                 condition_met = true;
                 break; // Condition met, no need to check further
@@ -70,3 +70,4 @@ int main(int argc, char *argv[])
     rclcpp::shutdown();
     return 0;
 }
+
