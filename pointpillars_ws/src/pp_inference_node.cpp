@@ -104,6 +104,10 @@ public:
         "/point_cloud", 700, std::bind(&MinimalPublisher::topic_callback, this, _1));
     dummy_point_cloud = this->create_publisher<sensor_msgs::msg::PointCloud2>(
         "/dummy_point_cloud", default_qos);
+
+    // Create a timer to periodically clear markers
+    timer_ = this->create_wall_timer(
+        1000ms, std::bind(&MinimalPublisher::clear_markers_callback, this));
   }
 
 private:
@@ -118,6 +122,19 @@ private:
   tf2::Quaternion myQuaternion;
   cudaStream_t stream = NULL;
   PointPillar *pointpillar;
+
+  void clear_markers_callback()
+  {
+    auto clear_array = visualization_msgs::msg::MarkerArray();
+    auto clear_marker = visualization_msgs::msg::Marker();
+    clear_marker.header.frame_id = "LIDAR_TOP";
+    clear_marker.header.stamp = this->now();
+    clear_marker.ns = "bounding_boxes";
+    clear_marker.id = 0;
+    clear_marker.action = visualization_msgs::msg::Marker::DELETEALL;
+    clear_array.markers.push_back(clear_marker);
+    publisher_->publish(clear_array);
+  }
 
   void topic_callback(const sensor_msgs::msg::PointCloud2::ConstSharedPtr msg)
   {
@@ -177,7 +194,9 @@ private:
     auto timestamp = this->now();
     std::vector<vision_msgs::msg::Detection3D> detections;
     int box_id = 0;
+
     auto marker_array = visualization_msgs::msg::MarkerArray();
+
     for (int i = 0; i < nms_pred.size(); i++)
     {
       // vision_msgs::msg::Detection3D detection;
@@ -241,12 +260,15 @@ private:
       bounding_box.pose.orientation.z = quat.z();
       bounding_box.pose.orientation.w = quat.w();
       bounding_box.text = class_names.at(nms_pred.at(i).id);
-      if(nms_pred.at(i).id==0&&abs(bounding_box.pose.position.y)<=8&&abs(bounding_box.pose.position.x)>=1.5 && abs(bounding_box.pose.position.y)>=1.8){
-        if(nms_pred.at(i).w > 1,4 && nms_pred.at(i).l > 4.0)
-      	marker_array.markers.push_back(bounding_box);
+      if (nms_pred.at(i).id == 0 && abs(bounding_box.pose.position.y) <= 8 && abs(bounding_box.pose.position.x) >= 1.5 && abs(bounding_box.pose.position.y) >= 1.8)
+      {
+        if (nms_pred.at(i).w > 1, 4 && nms_pred.at(i).l > 4.0 && nms_pred.at(i).rt >= 4.0)
+        {
+          marker_array.markers.push_back(bounding_box);
+        }
       }
-      
     }
+
     publisher_->publish(marker_array);
 
     // convert points_data to a PCL point cloud

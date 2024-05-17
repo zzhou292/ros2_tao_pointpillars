@@ -9,6 +9,7 @@ RUN ROS_DISTRO=humble
 COPY pointpillars_ws pointpillars_ws
 COPY brake_control brake_control
 COPY model model
+COPY post_run.sh post_run.sh
 
 RUN export DEBIAN_FRONTEND=noninteractive && . /opt/ros/$ROS_DISTRO/setup.bash && \
     sudo rosdep init && \

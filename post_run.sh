@@ -1,8 +1,9 @@
+# use fp16 for 1080 or fp32 for 20 series
 /model/pointpillars_model/tao-converter  -k tlt_encode \
                -e /model/pointpillars_model/trt.engine \
                -p points,1x204800x4,1x204800x4,1x204800x4 \
                -p num_points,1,1,1 \
-               -t fp16 \
+               -t fp32 \
                /model/pointpillars_model/pointpillars_deployable.etlt
 
 colcon build \
@@ -12,7 +13,3 @@ colcon build \
         
 colcon build --packages-select brake_control --merge-install
 
-# run everything sudo
-
-ros2 launch pp_infer pp_infer_launch.py
-CMD ros2 run brake_control vehicle_detector
